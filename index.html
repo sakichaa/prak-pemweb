@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <form id="registrationForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required />
+    <span id="usernameFeedback" class="feedback"></span>
+    <br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required />
+    <span id="emailFeedback" class="feedback"></span>
+    <br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required />
+    <span id="passwordFeedback" class="feedback"></span>
+    <br><br>
+
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" required />
+    <span id="confirmPasswordFeedback" class="feedback"></span>
+    <br><br>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    const usernameField = document.getElementById('username');
+    const emailField = document.getElementById('email');
+    const passwordField = document.getElementById('password');
+    const confirmPasswordField = document.getElementById('confirmPassword');
+
+    const usernameFeedback = document.getElementById('usernameFeedback');
+    const emailFeedback = document.getElementById('emailFeedback');
+    const passwordFeedback = document.getElementById('passwordFeedback');
+    const confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
+
+    const registrationForm = document.getElementById('registrationForm');
+
+    const validateUsername = () => {
+      const username = usernameField.value;
+      const regex = /^[a-zA-Z0-9]{5,20}$/;
+      if (regex.test(username)) {
+        usernameFeedback.textContent = 'Valid username';
+        usernameFeedback.className = 'feedback green';
+        return true;
+      } else {
+        usernameFeedback.textContent = 'Username must be 5-20 alphanumeric characters';
+        usernameFeedback.className = 'feedback red';
+        return false;
+      }
+    };
+
+    const validateEmail = () => {
+      const email = emailField.value;
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (regex.test(email)) {
+        emailFeedback.textContent = 'Valid email';
+        emailFeedback.className = 'feedback green';
+        return true;
+      } else {
+        emailFeedback.textContent = 'Invalid email format';
+        emailFeedback.className = 'feedback red';
+        return false;
+      }
+    };
+
+    const validatePassword = () => {
+      const password = passwordField.value;
+      const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+      if (regex.test(password)) {
+        passwordFeedback.textContent = 'Strong password';
+        passwordFeedback.className = 'feedback green';
+        return true;
+      } else {
+        passwordFeedback.textContent = 'Password must be at least 8 characters and include letters and numbers';
+        passwordFeedback.className = 'feedback red';
+        return false;
+      }
+    };
+
+    const validateConfirmPassword = () => {
+      const password = passwordField.value;
+      const confirmPassword = confirmPasswordField.value;
+      if (password === confirmPassword && confirmPassword !== '') {
+        confirmPasswordFeedback.textContent = 'Passwords match';
+        confirmPasswordFeedback.className = 'feedback green';
+        return true;
+      } else {
+        confirmPasswordFeedback.textContent = 'Passwords do not match';
+        confirmPasswordFeedback.className = 'feedback red';
+        return false;
+      }
+    };
+
+    usernameField.addEventListener('keyup', validateUsername);
+    emailField.addEventListener('change', validateEmail);
+    passwordField.addEventListener('keyup', validatePassword);
+    confirmPasswordField.addEventListener('input', validateConfirmPassword);
+
+    registrationForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const isFormValid = validateUsername() && validateEmail() && validatePassword() && validateConfirmPassword();
+
+      if (isFormValid) {
+        alert('Registration successful!');
+        registrationForm.reset();
+      } else {
+        alert('Please fix the errors before submitting.');
+      }
+    });
+  </script>
+</body>
+</html>
